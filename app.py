@@ -166,17 +166,12 @@ def server(input, output, session):
             try:
                 # Parse the JSON data (assuming it's correctly formatted)
                 data = json.loads(event_data())
-                # Check if data contains multiple events
+                # Check if there are one or more multiple events
                 if "events" in data:
                     events = data["events"]
-                    if isinstance(events, list):
-                        for event_item in events:
-                            event = create_event(event_item)
-                            cal.add_component(event)
-                else:
-                    # Handle single event case
-                    event = create_event(data)
-                    cal.add_component(event)
+                    for event_item in events:
+                        event = create_event(event_item)
+                        cal.add_component(event)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON: {e}")
                 return
